@@ -104,11 +104,28 @@ nav ul li a {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
 }
 
 nav ul li a:hover, nav ul li a.active {
     color: var(--primary);
-    background-color: rgba(58, 123, 213, 0.1);
+    background-color: var(--primary-light);
 }
 
 .user-menu {
