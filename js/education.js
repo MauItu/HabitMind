@@ -45,13 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
         cycleItems.forEach((item, index) => {
             setTimeout(() => {
                 item.style.transform = item.id === 'cue' || item.id === 'response' 
-                    ? `translateX(-50%) scale(1.1)` 
-                    : 'scale(1.1)';
+                    ? `translateX(-50%) scale(1.1) ` 
+                    : 'translateY(-50%) scale(1.1)';
                 
                 setTimeout(() => {
                     item.style.transform = item.id === 'cue' || item.id === 'response' 
                         ? `translateX(-50%) scale(1)` 
-                        : 'scale(1)';
+                        : 'translateY(-50%) scale(1)';
                 }, 500);
             }, index * 1000);
         });
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Iniciar la animación del ciclo y repetirla cada 5 segundos
     animateCycleItems();
-    setInterval(animateCycleItems, 5000);
+    setInterval(animateCycleItems, 4000);
     
     // Smooth scroll para los enlaces de navegación
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
