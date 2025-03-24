@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hábitos Atómicos - Home</title>
+    <title>habitMin - Home</title>
     <link rel="stylesheet" href="../../css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
     <header>
         <div class="logo">
             <i class="fas fa-atom"></i>
-            <span>Hábitos Atómicos</span>
+            <span>habitMin</span>
         </div>
         <nav>
             <ul>
@@ -28,17 +28,17 @@
 
     <main class="dashboard">
         <!-- Panel izquierdo: Lista de hábitos -->
-        <section class="habits-panel">
+        <section class="habits-panel animate-in">
             <div class="panel-header">
                 <h2>Hábitos</h2>
-                <button id="add-habit-btn" class="add-btn">
+                <button id="add-habit-btn" class="add-btn pulse">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
             
             <div class="habits-list" id="habits-list">
                 <!-- La lista estará vacía inicialmente -->
-                <div class="empty-state">
+                <div class="empty-state fade-in">
                     <p>No tienes hábitos registrados</p>
                     <p>Haz clic en el botón + para crear uno nuevo</p>
                 </div>
@@ -57,7 +57,7 @@
         <!-- Panel derecho: Estadísticas y frases -->
         <section class="stats-panel">
             <!-- Estadísticas -->
-            <div class="stats-container">
+            <div class="stats-container animate-in" style="--delay: 0.2s">
                 <div class="no-data-message" id="stats-empty-state">
                     <p>No hay datos para mostrar</p>
                     <p>Crea y completa hábitos para ver estadísticas</p>
@@ -75,7 +75,7 @@
             </div>
             
             <!-- Frases motivacionales -->
-            <div class="quotes-container">
+            <div class="quotes-container animate-in" style="--delay: 0.4s">
                 <div class="no-data-message" id="quotes-empty-state">
                     <p>No hay frases motivacionales disponibles</p>
                 </div>
@@ -98,17 +98,17 @@
             </div>
             <div class="modal-body">
                 <form id="habit-form">
-                    <div class="form-group">
+                    <div class="form-group slide-in">
                         <label for="habit-name">Nombre</label>
                         <input type="text" id="habit-name" name="habit-name" placeholder="Ej: Leer, Meditar, Ejercicio..." required>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group slide-in" style="--delay: 0.1s">
                         <label for="habit-description">Descripción</label>
                         <textarea id="habit-description" name="habit-description" placeholder="Descripción corta..."></textarea>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group slide-in" style="--delay: 0.2s">
                         <label>Color</label>
                         <div class="color-options">
                             <div class="color-option">
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-actions">
+                    <div class="form-actions slide-in" style="--delay: 0.3s">
                         <button type="button" class="cancel-btn" id="cancel-btn">Cancelar</button>
                         <button type="submit" class="accept-btn">Aceptar</button>
                     </div>
@@ -143,7 +143,7 @@
         <div class="footer-content">
             <div class="footer-logo">
                 <i class="fas fa-atom"></i>
-                <span>Hábitos Atómicos</span>
+                <span>habitMin</span>
             </div>
             <p>Basado en el libro "Hábitos Atómicos" de James Clear</p>
             <p>&copy; 2024 - Todos los derechos reservados</p>

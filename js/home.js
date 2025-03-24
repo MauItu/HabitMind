@@ -15,6 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function openModal() {
         habitModalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden'; // Prevenir scroll
+        
+        // Reiniciar animaciones de los elementos del formulario
+        const animatedElements = habitModalOverlay.querySelectorAll('.slide-in');
+        animatedElements.forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight; // Trigger reflow
+            el.style.animation = null;
+        });
     }
     
     function closeModal() {
@@ -63,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Crear elemento de hábito
         const habitItem = document.createElement('div');
         habitItem.className = 'habit-item';
+        habitItem.style.opacity = '0'; // Inicialmente invisible para la animación
         habitItem.innerHTML = `
             <span class="habit-name">${name}</span>
             <div class="habit-actions">
@@ -81,6 +90,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Agregar a la lista
         habitsList.appendChild(habitItem);
         
+        // Animar entrada
+        setTimeout(() => {
+            habitItem.style.opacity = '1';
+            habitItem.style.animation = 'fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+        }, 10);
+        
         // Agregar event listeners para editar y eliminar
         const editBtn = habitItem.querySelector('.habit-edit');
         const deleteBtn = habitItem.querySelector('.habit-delete');
@@ -91,20 +106,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         deleteBtn.addEventListener('click', function() {
-            // Eliminar el hábito de la lista
-            habitItem.remove();
+            // Animar salida antes de eliminar
+            habitItem.style.animation = 'fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse forwards';
             
-            // Si no quedan hábitos, mostrar mensaje de estado vacío
-            if (habitsList.children.length === 0) {
-                showEmptyState();
-            }
+            setTimeout(() => {
+                // Eliminar el hábito de la lista
+                habitItem.remove();
+                
+                // Si no quedan hábitos, mostrar mensaje de estado vacío
+                if (habitsList.children.length === 0) {
+                    showEmptyState();
+                }
+            }, 500);
         });
     }
     
     // Función para mostrar estado vacío
     function showEmptyState() {
         const emptyState = document.createElement('div');
-        emptyState.className = 'empty-state';
+        emptyState.className = 'empty-state fade-in';
         emptyState.innerHTML = `
             <p>No tienes hábitos registrados</p>
             <p>Haz clic en el botón + para crear uno nuevo</p>
@@ -136,7 +156,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         position: 'right',
                     }
                 },
-                cutout: '70%'
+                cutout: '70%',
+                animation: {
+                    animateScale: true,
+                    animateRotate: true,
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
             }
         });
         
@@ -153,10 +179,23 @@ document.addEventListener('DOMContentLoaded', function() {
     totalBtn.addEventListener('click', function() {
         totalBtn.classList.add('active');
         weeklyBtn.classList.remove('active');
-        totalBtn.classList.add('active');
-        weeklyBtn.classList.remove('active');
         // Aquí iría la lógica para actualizar el gráfico con datos totales
     });
+    
+    // Función para animar elementos al hacer scroll
+    function animateOnScroll() {
+        const elements = document.querySelectorAll('.animate-in');
+        
+        elements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }
+        });
+    }
     
     // Inicializar la aplicación
     function init() {
@@ -165,6 +204,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Mostrar estados vacíos iniciales
         showEmptyState();
+        
+        // Configurar animaciones iniciales
+        animateOnScroll();
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Animar el botón de añadir hábito después de un tiempo
+        setTimeout(() => {
+            addHabitBtn.classList.add('pulse');
+        }, 2000);
     }
     
     // Iniciar la aplicación

@@ -1,7 +1,7 @@
 /* Variables y reset */
 :root {
     --primary: #3a7bd5;
-    --primary-dark: #2d62aa;
+    --primary-light: #e6f0ff;
     --secondary: #00d2ff;
     --accent: #ff7e5f;
     --text: #333333;
@@ -11,15 +11,13 @@
     --border: #e0e0e0;
     --shadow: rgba(0, 0, 0, 0.1);
     
-    --law1-color: #4CAF50;
-    --law2-color: #FF9800;
-    --law3-color: #2196F3;
-    --law4-color: #9C27B0;
-    
     --habit-blue: #2196F3;
     --habit-green: #4CAF50;
     --habit-purple: #9C27B0;
     --habit-red: #F44336;
+    
+    --animation-duration: 0.8s;
+    --animation-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 * {
@@ -32,10 +30,13 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
     line-height: 1.6;
-    background-image: url('../public/fondo-picaai.png');
-    background-size: cover; /* Ajusta la imagen al tamaño de la pantalla */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */}
+    background-image: url('../public/fondo-picaai.png'); /* Reemplazar con tu imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
 /* Tipografía */
 h1, h2, h3, h4 {
@@ -54,12 +55,13 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%;
-    background-color: var(--background);
+    padding: 0.8rem 5%;
+    background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 10px var(--shadow);
     position: sticky;
     top: 0;
     z-index: 100;
+    animation: slideDown 0.5s var(--animation-timing);
 }
 
 .logo {
@@ -92,11 +94,28 @@ nav ul li a {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
 }
 
 nav ul li a:hover, nav ul li a.active {
     color: var(--primary);
-    background-color: rgba(58, 123, 213, 0.1);
+    background-color: var(--primary-light);
 }
 
 .user-menu {
@@ -130,13 +149,20 @@ nav ul li a:hover, nav ul li a.active {
 
 /* Panel de hábitos (izquierda) */
 .habits-panel {
-    flex: 0 0 350px;
+    flex: 0 0 300px;
     display: flex;
     flex-direction: column;
     border-radius: 12px;
     box-shadow: 0 4px 12px var(--shadow);
     background-color: var(--background);
     overflow: hidden;
+    max-height: 80vh;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.habits-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .panel-header {
@@ -148,13 +174,13 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .add-btn {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     border: 2px solid var(--primary);
     background-color: transparent;
     color: var(--primary);
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -165,6 +191,11 @@ nav ul li a:hover, nav ul li a.active {
 .add-btn:hover {
     background-color: var(--primary);
     color: white;
+    transform: rotate(90deg);
+}
+
+.add-btn.pulse {
+    animation: pulse 2s infinite;
 }
 
 .habits-list {
@@ -201,11 +232,12 @@ nav ul li a:hover, nav ul li a.active {
     border-radius: 8px;
     margin-bottom: 0.8rem;
     transition: all 0.3s ease;
+    animation: fadeInUp 0.5s var(--animation-timing) both;
 }
 
 .habit-item:hover {
     box-shadow: 0 2px 8px var(--shadow);
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
 }
 
 .habit-name {
@@ -224,15 +256,17 @@ nav ul li a:hover, nav ul li a.active {
     cursor: pointer;
     margin-left: 0.5rem;
     color: var(--text-light);
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .habit-edit:hover {
     color: var(--primary);
+    transform: rotate(15deg);
 }
 
 .habit-delete:hover {
     color: var(--habit-red);
+    transform: rotate(-15deg);
 }
 
 .habit-streak {
@@ -245,6 +279,7 @@ nav ul li a:hover, nav ul li a.active {
 .habit-streak i {
     color: var(--accent);
     margin-right: 0.3rem;
+    animation: flicker 1.5s ease-in-out infinite alternate;
 }
 
 .pagination {
@@ -255,8 +290,8 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .pagination-btn {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     border: none;
     background-color: var(--background-alt);
@@ -272,6 +307,7 @@ nav ul li a:hover, nav ul li a.active {
 .pagination-btn:hover:not(:disabled) {
     background-color: var(--primary);
     color: white;
+    transform: translateY(-2px);
 }
 
 .pagination-btn:disabled {
@@ -285,6 +321,8 @@ nav ul li a:hover, nav ul li a.active {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    max-width: 70%; /* Reducir el ancho máximo */
+    margin: 0 auto; /* Centrar los paneles */
 }
 
 .stats-container, .quotes-container {
@@ -292,15 +330,24 @@ nav ul li a:hover, nav ul li a.active {
     border-radius: 12px;
     box-shadow: 0 4px 12px var(--shadow);
     padding: 1.5rem;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stats-container:hover, .quotes-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .stats-container {
     flex: 2;
     position: relative;
+    height: 350px; /* Altura fija reducida */
 }
 
 .quotes-container {
     flex: 1;
+    height: 200px; /* Altura fija reducida */
 }
 
 .no-data-message {
@@ -308,7 +355,7 @@ nav ul li a:hover, nav ul li a.active {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 100%;
     text-align: center;
     color: var(--text-light);
 }
@@ -323,8 +370,9 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .chart-container {
-    height: 250px;
+    height: 200px;
     margin-bottom: 1.5rem;
+    animation: fadeIn 1s ease;
 }
 
 .stats-buttons {
@@ -344,9 +392,29 @@ nav ul li a:hover, nav ul li a.active {
     transition: all 0.3s ease;
 }
 
-.stats-btn:hover, .stats-btn.active {
+.stats-btn:hover {
     background-color: var(--primary);
     color: white;
+    transform: translateY(-2px);
+}
+
+.stats-btn.active {
+    background-color: var(--primary);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
 }
 
 .quote-content {
@@ -404,6 +472,7 @@ blockquote::after {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
 .modal-overlay.active {
@@ -413,16 +482,17 @@ blockquote::after {
 
 .modal {
     width: 90%;
-    max-width: 500px;
+    max-width: 450px;
     background-color: var(--background);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
+    transform: translateY(-50px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
 }
 
 .modal-overlay.active .modal {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .modal-header {
@@ -431,6 +501,7 @@ blockquote::after {
     align-items: center;
     padding: 1.5rem;
     border-bottom: 1px solid var(--border);
+    background-color: var(--primary-light);
 }
 
 .close-btn {
@@ -439,11 +510,12 @@ blockquote::after {
     font-size: 1.2rem;
     cursor: pointer;
     color: var(--text-light);
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .close-btn:hover {
     color: var(--habit-red);
+    transform: rotate(90deg);
 }
 
 .modal-body {
@@ -452,6 +524,13 @@ blockquote::after {
 
 .form-group {
     margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.form-group.slide-in {
+    animation: slideInRight var(--animation-duration) var(--animation-timing) forwards;
+    animation-delay: var(--delay, 0s);
 }
 
 .form-group label {
@@ -467,12 +546,14 @@ blockquote::after {
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus, .form-group textarea:focus {
     outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.2);
+    transform: translateY(-2px);
 }
 
 .form-group textarea {
@@ -498,8 +579,8 @@ blockquote::after {
 
 .color-circle {
     display: block;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -524,7 +605,8 @@ blockquote::after {
 
 .color-option input[type="radio"]:checked + .color-circle {
     border-color: var(--text);
-    transform: scale(1.1);
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .form-actions {
@@ -532,6 +614,13 @@ blockquote::after {
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.form-actions.slide-in {
+    animation: slideInUp var(--animation-duration) var(--animation-timing) forwards;
+    animation-delay: var(--delay, 0s);
 }
 
 .cancel-btn, .accept-btn {
@@ -550,23 +639,43 @@ blockquote::after {
 
 .cancel-btn:hover {
     background-color: #e9ecef;
+    transform: translateY(-2px);
 }
 
 .accept-btn {
-    background-color: var(--law1-color);
+    background-color: var(--habit-green);
     border: none;
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.accept-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-100%);
 }
 
 .accept-btn:hover {
     background-color: #3d8b40;
+    transform: translateY(-2px);
+}
+
+.accept-btn:hover::after {
+    animation: shimmer 1s forwards;
 }
 
 /* Footer */
 footer {
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.9);
     color: white;
-    padding: 3rem 5%;
+    padding: 2rem 5%;
+    margin-top: 2rem;
 }
 
 .footer-content {
@@ -600,6 +709,101 @@ footer {
     }
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(58, 123, 213, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(58, 123, 213, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(58, 123, 213, 0);
+    }
+}
+
+@keyframes flicker {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Clases de animación */
+.animate-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp var(--animation-duration) var(--animation-timing) forwards;
+    animation-delay: var(--delay, 0s);
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn var(--animation-duration) var(--animation-timing) forwards;
+    animation-delay: var(--delay, 0s);
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .dashboard {
@@ -610,6 +814,11 @@ footer {
         flex: 0 0 auto;
         width: 100%;
         margin-bottom: 2rem;
+        max-height: none;
+    }
+    
+    .stats-panel {
+        max-width: 100%;
     }
 }
 
