@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>habitMin - Home</title>
+    <link rel="stylesheet" href="../../css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-atom"></i>
+            <span>HabitMind</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="../educationSeccion/educationalSeccion.html">4 Leyes del Cambio</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <span>Usuario</span>
+            <a href="#" class="logout-btn">Cerrar sesión</a>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <!-- Panel izquierdo: Lista de hábitos -->
+        <section class="habits-panel animate-in">
+            <div class="panel-header">
+                <h2>Hábitos</h2>
+                <button id="add-habit-btn" class="add-btn pulse">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            
+            <div class="habits-list" id="habits-list">
+                <!-- La lista estará vacía inicialmente -->
+                <div class="empty-state fade-in">
+                    <p>No tienes hábitos registrados</p>
+                    <p>Haz clic en el botón + para crear uno nuevo</p>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Panel derecho: Estadísticas y frases -->
+        <section class="stats-panel">
+            <!-- Estadísticas -->
+            <div class="stats-container animate-in" style="--delay: 0.2s">
+                <div class="no-data-message" id="stats-empty-state">
+                    <p>No hay datos para mostrar</p>
+                    <p>Crea y completa hábitos para ver estadísticas</p>
+                </div>
+                
+                <div class="stats-content" id="stats-content" style="display: none;">
+                    <div class="chart-container">
+                        <canvas id="habits-chart"></canvas>
+                    </div>
+                    <div class="stats-buttons">
+                        <button class="stats-btn active" id="weekly-btn">Semanal</button>
+                        <button class="stats-btn" id="total-btn">Total</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Frases motivacionales -->
+            <div class="quotes-container animate-in" style="--delay: 0.4s">
+                <div class="no-data-message" id="quotes-empty-state">
+                    <p>No hay frases motivacionales disponibles</p>
+                </div>
+                <div class="quote-content" id="quote-content" style="display: none;">
+                    <blockquote id="quote-text"></blockquote>
+                    <p id="quote-author"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Modal para crear nuevo hábito -->
+    <div class="modal-overlay" id="habit-modal-overlay">
+        <div class="modal" id="habit-modal">
+            <div class="modal-header">
+                <h2>Nuevo Hábito</h2>
+                <button class="close-btn" id="close-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="habit-form">
+                    <div class="form-group slide-in">
+                        <label for="habit-name">Nombre</label>
+                        <input type="text" id="habit-name" name="habit-name" placeholder="Ej: Leer, Meditar, Ejercicio..." required>
+                    </div>
+                    
+                    <div class="form-group slide-in" style="--delay: 0.1s">
+                        <label for="habit-description">Descripción</label>
+                        <textarea id="habit-description" name="habit-description" placeholder="Descripción corta..."></textarea>
+                    </div>
+                    
+                    <div class="form-group slide-in" style="--delay: 0.2s">
+                        <label>Color</label>
+                        <div class="color-options">
+                            <div class="color-option">
+                                <input type="radio" name="habit-color" id="color-blue" value="blue" checked>
+                                <label for="color-blue" class="color-circle blue"></label>
+                            </div>
+                            <div class="color-option">
+                                <input type="radio" name="habit-color" id="color-green" value="green">
+                                <label for="color-green" class="color-circle green"></label>
+                            </div>
+                            <div class="color-option">
+                                <input type="radio" name="habit-color" id="color-purple" value="purple">
+                                <label for="color-purple" class="color-circle purple"></label>
+                            </div>
+                            <div class="color-option">
+                                <input type="radio" name="habit-color" id="color-red" value="red">
+                                <label for="color-red" class="color-circle red"></label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions slide-in" style="--delay: 0.3s">
+                        <button type="button" class="cancel-btn" id="cancel-btn">Cancelar</button>
+                        <button type="submit" class="accept-btn">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-atom"></i>
+                <span>habitMin</span>
+            </div>
+            <p>Basado en el libro "Hábitos Atómicos" de James Clear</p>
+            <p>&copy; 2024 - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../js/home.js"></script>
+</body>
+</html>
