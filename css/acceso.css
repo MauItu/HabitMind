@@ -1,0 +1,177 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Arial", sans-serif;
+  }
+  
+  body {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+  }
+  
+  /* Tarjeta de autenticación */
+  .auth-card {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 24px;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .welcome-text {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  /* Formularios */
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    border-color: #2563eb;
+  }
+  
+  input.error {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+  
+  /* Botones */
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  
+  .btn-primary {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .btn-outline {
+    background-color: transparent;
+    color: #2563eb;
+    border: 1px solid #d1d5db;
+  }
+  
+  .btn-outline:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .btn-error {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border: none;
+  }
+  
+  .btn-error:hover {
+    background-color: #fecaca;
+  }
+  
+  /* Mensajes de error */
+  .error-message {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+  
+  .error-message.error {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+  }
+  
+  .error-message.info {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+  }
+  
+  /* Error de conexión */
+  .connection-error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .error-card {
+    background-color: #fee2e2;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .error-card h2 {
+    color: #ef4444;
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+  
+  .error-card p {
+    color: #ef4444;
+    margin-bottom: 16px;
+  }
+  
+  /* Utilidades */
+  .hidden {
+    display: none;
+  }
+  

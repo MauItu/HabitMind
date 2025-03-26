@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Autenticación</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        /* Tarjeta de autenticación */
+        .auth-card {
+            background-color: white;
+            border-radius: 10px;
+            border: none;
+            padding: 30px;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Pestañas */
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #888;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: #3b82f6;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            color: #4a5568;
+        }
+
+        input:focus, select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        input.error {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        /* Botones */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #3b82f6;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-outline:hover {
+            background-color: #f8fafc;
+            border-color: #bfdbfe;
+            transform: translateY(-1px);
+        }
+
+        .btn-error {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+
+        .btn-error:hover {
+            background-color: #fecaca;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        /* Mensajes de error */
+        .error-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .error-message.error {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #fecaca;
+        }
+
+        .error-message.info {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Error de conexión */
+        .connection-error {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .error-card {
+            background-color: #fee2e2;
+            border: 1px solid #ef4444;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .error-card h2 {
+            color: #ef4444;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .error-card p {
+            color: #ef4444;
+            margin-bottom: 20px;
+        }
+
+        /* Tabla de usuarios */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .user-table th, .user-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .user-table th {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .user-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-admin {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .badge-user {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        /* Utilidades */
+        .hidden {
+            display: none;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Panel de administrador */
+        .admin-panel {
+            margin-top: 20px;
+        }
+
+        .admin-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .admin-card {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .admin-card h3 {
+            color: #0369a1;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 24px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-header h2 {
+            margin-bottom: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #a0aec0;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        /* Asegurar que los modales tengan el z-index correcto */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #confirm-modal {
+            z-index: 1001; /* Asegura que el modal de confirmación esté por encima de otros modales */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <div class="tabs">
+                <div class="tab active" data-tab="signin"></div>
+                <div class="tab" data-tab="signup"></div>
+            </div>
+
+            <!-- Formulario de inicio de sesión -->
+            <div id="signin-tab" class="tab-content active">
+                <h1>Sign in</h1>
+                
+                <form id="signin-form">
+                    <div class="form-group">
+                        <input type="email" id="signin-email" name="email" placeholder="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="signin-password" name="password" placeholder="password" required>
+                    </div>
+                    
+                    <div id="signin-error" class="error-message hidden"></div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn btn-outline" onclick="switchTab('signup')">Sign up</button>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario de registro -->
+            <div id="signup-tab" class="tab-content">
+                <h1>Sign up</h1>
+                
+                <div id="signup-error" class="error-message hidden"></div>
+                
+                <form id="signup-form">
+                    <div class="form-group">
+                        <input type="email" id="signup-email" name="email" placeholder="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="signup-password" name="password" placeholder="password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="confirm-password" name="confirmPassword" placeholder="confirmar password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="username" name="username" placeholder="User name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <select id="role" name="role">
+                            <option value="user">Usuario</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn btn-outline" onclick="switchTab('signin')">Sign in</button>
+                        <button type="submit" class="btn btn-primary">Sign up</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Pantalla de bienvenida para usuario normal -->
+            <div id="welcome-tab" class="tab-content">
+                <h1>Bienvenido</h1>
+                <p class="welcome-text" id="welcome-message">Has iniciado sesión correctamente.</p>
+                <div class="button-group" style="justify-content: center; margin-top: 30px;">
+                    <button onclick="logout()" class="btn btn-outline">Cerrar sesión</button>
+                </div>
+            </div>
+
+            <!-- Pantalla de administrador -->
+            <div id="admin-tab" class="tab-content">
+                <h1>Panel de Administración</h1>
+                <p class="welcome-text" id="admin-message">Bienvenido al panel de administración.</p>
+                
+                <div class="admin-card">
+                    <h3>Gestión de Usuarios</h3>
+                    <p>Aquí puedes ver y administrar todos los usuarios registrados en el sistema.</p>
+                </div>
+                
+                <div class="admin-actions">
+                    <button onclick="refreshUserList()" class="btn btn-outline">Actualizar</button>
+                    <button onclick="showAddUserModal()" class="btn btn-primary">Añadir Usuario</button>
+                </div>
+                
+                <div id="users-container">
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Los usuarios se cargarán dinámicamente aquí -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="button-group" style="justify-content: center; margin-top: 30px;">
+                    <button onclick="logout()" class="btn btn-outline">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para añadir/editar usuario -->
+    <div id="user-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Añadir Usuario</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="user-form">
+                <input type="hidden" id="edit-user-id">
+                
+                <div class="form-group">
+                    <input type="email" id="user-email" name="email" placeholder="Email" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="user-password" name="password" placeholder="Contraseña" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" id="user-username" name="username" placeholder="Nombre de usuario" required>
+                </div>
+                
+                <div class="form-group">
+                    <select id="user-role" name="role">
+                        <option value="user">Usuario</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar usuario -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmar eliminación</h2>
+                <button class="modal-close" onclick="closeConfirmModal()">&times;</button>
+            </div>
+            
+            <p>¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.</p>
+            
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="btn btn-danger" onclick="confirmDeleteUser()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plantilla para el error de conexión -->
+    <div id="connection-error" class="connection-error hidden">
+        <div class="error-card">
+            <h2>Error de conexión</h2>
+            <p>No se ha podido realizar la conexión de manera correcta</p>
+            <button id="go-back-btn" class="btn btn-error">go back</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let memoryStorage = { users: [] };
+        let userToDelete = null;
+
+        // Verificar si localStorage está disponible
+        let storageAvailable = false;
+        try {
+            localStorage.setItem("test", "test");
+            localStorage.removeItem("test");
+            storageAvailable = true;
+            console.log("localStorage está disponible");
+            
+            // Inicializar localStorage si no existe
+            if (!localStorage.getItem("users")) {
+                // Crear un administrador por defecto
+                const defaultAdmin = {
+                    email: "admin@example.com",
+                    password: "admin123",
+                    username: "Administrador",
+                    role: "admin"
+                };
+                
+                localStorage.setItem("users", JSON.stringify([defaultAdmin]));
+            }
+        } catch (e) {
+            console.log("localStorage no está disponible, usando almacenamiento en memoria");
+            storageAvailable = false;
+            
+            // Crear un administrador por defecto en memoria
+            memoryStorage.users.push({
+                email: "admin@example.com",
+                password: "admin123",
+                username: "Administrador",
+                role: "admin"
+            });
+        }
+
+        // Función para obtener usuarios
+        function getUsers() {
+            if (storageAvailable) {
+                return JSON.parse(localStorage.getItem("users") || "[]");
+            } else {
+                return memoryStorage.users;
+            }
+        }
+
+        // Función para guardar usuarios
+        function saveUsers(users) {
+            if (storageAvailable) {
+                localStorage.setItem("users", JSON.stringify(users));
+            } else {
+                memoryStorage.users = users;
+            }
+        }
+
+        // Función para obtener usuario actual
+        function getCurrentUser() {
+            const currentUserData = storageAvailable ? 
+                localStorage.getItem("currentUser") : 
+                memoryStorage.currentUser;
+                
+            return currentUserData ? JSON.parse(currentUserData) : null;
+        }
+
+        // Elementos DOM
+        const connectionError = document.getElementById("connection-error");
+        const goBackBtn = document.getElementById("go-back-btn");
+        const signinForm = document.getElementById("signin-form");
+        const signupForm = document.getElementById("signup-form");
+        const signinError = document.getElementById("signin-error");
+        const signupError = document.getElementById("signup-error");
+        const tabs = document.querySelectorAll(".tab");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const userModal = document.getElementById("user-modal");
+        const userForm = document.getElementById("user-form");
+        const confirmModal = document.getElementById("confirm-modal");
+
+        // Comprobar si hay una sesión activa
+        function checkSession() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                if (currentUser.role === "admin") {
+                    // Si es administrador, mostrar panel de administración
+                    document.getElementById("admin-message").textContent = `Bienvenido, ${currentUser.username}!`;
+                    refreshUserList();
+                    switchTab('admin');
+                } else {
+                    // Si es usuario normal, mostrar pantalla de bienvenida
+                    document.getElementById("welcome-message").textContent = `Bienvenido, ${currentUser.username}!`;
+                    switchTab('welcome');
+                }
+            }
+        }
+
+        // Cambiar entre pestañas
+        function switchTab(tabId) {
+            // Actualizar pestañas
+            tabs.forEach(tab => {
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add("active");
+                } else {
+                    tab.classList.remove("active");
+                }
+            });
+
+            // Actualizar contenido de pestañas
+            tabContents.forEach(content => {
+                if (content.id === tabId + "-tab") {
+                    content.classList.add("active");
+                } else {
+                    content.classList.remove("active");
+                }
+            });
+        }
+
+        // Cerrar sesión
+        function logout() {
+            if (storageAvailable) {
+                localStorage.removeItem("currentUser");
+            } else {
+                delete memoryStorage.currentUser;
+            }
+            switchTab('signin');
+        }
+
+        // Actualizar lista de usuarios
+        function refreshUserList() {
+            const users = getUsers();
+            const tableBody = document.getElementById("users-table-body");
+            tableBody.innerHTML = "";
+            
+            users.forEach((user, index) => {
+                const row = document.createElement("tr");
+                
+                // Columna de nombre de usuario
+                const usernameCell = document.createElement("td");
+                usernameCell.textContent = user.username;
+                row.appendChild(usernameCell);
+                
+                // Columna de email
+                const emailCell = document.createElement("td");
+                emailCell.textContent = user.email;
+                row.appendChild(emailCell);
+                
+                // Columna de rol
+                const roleCell = document.createElement("td");
+                const roleBadge = document.createElement("span");
+                roleBadge.className = user.role === "admin" ? "badge badge-admin" : "badge badge-user";
+                roleBadge.textContent = user.role === "admin" ? "Admin" : "Usuario";
+                roleCell.appendChild(roleBadge);
+                row.appendChild(roleCell);
+                
+                // Columna de acciones
+                const actionsCell = document.createElement("td");
+                const actionsDiv = document.createElement("div");
+                actionsDiv.className = "action-buttons";
+                
+                // Botón de editar
+                const editButton = document.createElement("button");
+                editButton.className = "btn btn-outline btn-sm";
+                editButton.textContent = "Editar";
+                editButton.onclick = () => editUser(index);
+                actionsDiv.appendChild(editButton);
+                
+                // Botón de eliminar
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "btn btn-danger btn-sm";
+                deleteButton.textContent = "Eliminar";
+                deleteButton.onclick = () => showDeleteConfirmation(index);
+                actionsDiv.appendChild(deleteButton);
+                
+                actionsCell.appendChild(actionsDiv);
+                row.appendChild(actionsCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Mostrar modal para añadir usuario
+        function showAddUserModal() {
+            // Cerrar cualquier otro modal abierto
+            closeConfirmModal();
+            
+            document.getElementById("modal-title").textContent = "Añadir Usuario";
+            document.getElementById("edit-user-id").value = "";
+            userForm.reset();
+            userModal.classList.remove("hidden");
+        }
+
+        // Editar usuario
+        function editUser(index) {
+            // Cerrar cualquier otro modal abierto
+            closeConfirmModal();
+            
+            const users = getUsers();
+            const user = users[index];
+            
+            document.getElementById("modal-title").textContent = "Editar Usuario";
+            document.getElementById("edit-user-id").value = index;
+            document.getElementById("user-email").value = user.email;
+            document.getElementById("user-password").value = user.password;
+            document.getElementById("user-username").value = user.username;
+            document.getElementById("user-role").value = user.role;
+            
+            userModal.classList.remove("hidden");
+        }
+
+        // Mostrar confirmación de eliminación
+        function showDeleteConfirmation(index) {
+            // Cerrar cualquier otro modal abierto
+            closeModal();
+            
+            userToDelete = index;
+            confirmModal.classList.remove("hidden");
+        }
+
+        // Confirmar eliminación de usuario
+        function confirmDeleteUser() {
+            if (userToDelete !== null) {
+                const users = getUsers();
+                users.splice(userToDelete, 1);
+                saveUsers(users);
+                refreshUserList();
+                closeConfirmModal();
+            }
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            userModal.classList.add("hidden");
+        }
+
+        // Cerrar modal de confirmación
+        function closeConfirmModal() {
+            confirmModal.classList.add("hidden");
+            userToDelete = null;
+        }
+
+        // Manejar el botón "go back" en el error de conexión
+        if (goBackBtn) {
+            goBackBtn.addEventListener("click", () => {
+                connectionError.classList.add("hidden");
+            });
+        }
+
+        // Configurar eventos de pestañas
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Formulario para añadir/editar usuario
+        if (userForm) {
+            userForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                
+                const userId = document.getElementById("edit-user-id").value;
+                const email = document.getElementById("user-email").value.trim();
+                const password = document.getElementById("user-password").value;
+                const username = document.getElementById("user-username").value.trim();
+                const role = document.getElementById("user-role").value;
+                
+                const users = getUsers();
+                
+                // Si estamos editando un usuario existente
+                if (userId !== "") {
+                    const index = parseInt(userId);
+                    users[index] = {
+                        email,
+                        password,
+                        username,
+                        role
+                    };
+                } else {
+                    // Si estamos añadiendo un nuevo usuario
+                    users.push({
+                        email,
+                        password,
+                        username,
+                        role
+                    });
+                }
+                
+                saveUsers(users);
+                refreshUserList();
+                closeModal();
+            });
+        }
+
+        // Formulario de registro
+        if (signupForm) {
+            signupForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                // Obtener valores del formulario
+                const email = document.getElementById("signup-email").value.trim();
+                const password = document.getElementById("signup-password").value;
+                const confirmPassword = document.getElementById("confirm-password").value;
+                const username = document.getElementById("username").value.trim();
+                const role = document.getElementById("role").value;
+
+                // Validación básica
+                if (!email || !password || !confirmPassword || !username) {
+                    showError(signupError, "Todos los campos son obligatorios", "error");
+                    return;
+                }
+
+                // Validar formato de email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showError(signupError, "Por favor, introduce un email válido", "error");
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    showError(signupError, "Las contraseñas no coinciden", "error");
+                    return;
+                }
+
+                // Validar longitud de contraseña
+                if (password.length < 6) {
+                    showError(signupError, "La contraseña debe tener al menos 6 caracteres", "error");
+                    return;
+                }
+
+                // Simular registro
+                try {
+                    // Simular un error de conexión aleatoriamente (20% de probabilidad)
+                    if (Math.random() < 0.2) {
+                        showConnectionError();
+                        return;
+                    }
+
+                    // Obtener usuarios
+                    const users = getUsers();
+
+                    // Verificar si el email ya existe
+                    if (users.some((user) => user.email === email)) {
+                        showError(signupError, "Este email ya está registrado", "error");
+                        return;
+                    }
+
+                    // Añadir nuevo usuario
+                    users.push({
+                        email: email,
+                        password: password,
+                        username: username,
+                        role: role
+                    });
+
+                    // Guardar usuarios
+                    saveUsers(users);
+                    console.log("Usuario registrado:", email);
+
+                    // Limpiar formulario
+                    signupForm.reset();
+
+                    // Cambiar a la pestaña de inicio de sesión
+                    switchTab('signin');
+                    showError(signinError, "Registro exitoso. Ahora puedes iniciar sesión.", "info");
+                } catch (err) {
+                    console.error("Error al registrar:", err);
+                    showConnectionError();
+                }
+            });
+        }
+
+        // Formulario de inicio de sesión
+        if (signinForm) {
+            const emailInput = document.getElementById("signin-email");
+            const passwordInput = document.getElementById("signin-password");
+
+            // Limpiar errores al cambiar los campos
+            emailInput.addEventListener("input", () => {
+                emailInput.classList.remove("error");
+                passwordInput.classList.remove("error");
+                signinError.classList.add("hidden");
+            });
+
+            passwordInput.addEventListener("input", () => {
+                emailInput.classList.remove("error");
+                passwordInput.classList.remove("error");
+                signinError.classList.add("hidden");
+            });
+
+            signinForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                // Obtener valores del formulario
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                // Validación básica
+                if (!email || !password) {
+                    showError(signinError, "Todos los campos son obligatorios", "error");
+                    return;
+                }
+
+                try {
+                    // Simular un error de conexión aleatoriamente (10% de probabilidad)
+                    if (Math.random() < 0.1) {
+                        showConnectionError();
+                        return;
+                    }
+
+                    // Obtener usuarios
+                    const users = getUsers();
+                    console.log("Usuarios disponibles:", users.length);
+                    
+                    // Verificar credenciales
+                    const user = users.find((u) => u.email === email);
+
+                    if (!user) {
+                        showError(signinError, "usuario no registrado", "info");
+                        return;
+                    }
+
+                    if (user.password !== password) {
+                        emailInput.classList.add("error");
+                        passwordInput.classList.add("error");
+                        showError(signinError, "email o password incorrectos", "error");
+                        return;
+                    }
+
+                    // Guardar sesión
+                    if (storageAvailable) {
+                        localStorage.setItem("currentUser", JSON.stringify(user));
+                    } else {
+                        memoryStorage.currentUser = JSON.stringify(user);
+                    }
+
+                    // Redirigir según el rol
+                    if (user.role === "admin") {
+                        // Si es administrador, mostrar panel de administración
+                        document.getElementById("admin-message").textContent = `Bienvenido, ${user.username}!`;
+                        refreshUserList();
+                        switchTab('admin');
+                    } else {
+                        // Si es usuario normal, mostrar pantalla de bienvenida
+                        document.getElementById("welcome-message").textContent = `Bienvenido, ${user.username}!`;
+                        switchTab('welcome');
+                    }
+                    
+                    // Limpiar formulario
+                    signinForm.reset();
+                } catch (err) {
+                    console.error("Error al iniciar sesión:", err);
+                    showConnectionError();
+                }
+            });
+        }
+
+        // Función para mostrar errores
+        function showError(element, message, type) {
+            if (element) {
+                element.textContent = message;
+                element.classList.remove("hidden", "error", "info");
+                element.classList.add(type);
+            }
+        }
+
+        // Función para mostrar error de conexión
+        function showConnectionError() {
+            if (connectionError) {
+                connectionError.classList.remove("hidden");
+            }
+        }
+
+        // Comprobar sesión al cargar la página
+        document.addEventListener("DOMContentLoaded", checkSession);
+    </script>
+</body>
+</html>
