@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="../../css/acceso.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <h1>Sign up</h1>
+            
+            <div id="error-message" class="error-message hidden"></div>
+            
+            <form id="signup-form">
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="confirm-password" name="confirmPassword" placeholder="confirmar password" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" id="username" name="username" placeholder="User name" required>
+                </div>
+                
+                <div class="button-group">
+                    <a href="signIn.html" class="btn btn-outline">Sign in</a>
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Plantilla para el error de conexión -->
+    <div id="connection-error" class="connection-error hidden">
+        <div class="error-card">
+            <h2>Error de conexión</h2>
+            <p>No se ha podido realizar la conexión de manera correcta</p>
+            <button id="go-back-btn" class="btn btn-error">go back</button>
+        </div>
+    </div>
+
+    <script src="../../js/script.js"></script>
+</body>
+</html>
