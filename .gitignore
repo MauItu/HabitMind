@@ -1,0 +1,12 @@
+# Ignorar la carpeta de configuración de VS Code
+.vscode/
+
+# Ignorar archivos compilados o de dependencias
+node_modules/
+dist/
+
+# Ignorar archivos específicos
+archivo_temporal.txt
+
+#ignorar el .env
+.env
