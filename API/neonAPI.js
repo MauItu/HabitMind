@@ -1,6 +1,6 @@
 const express = require('express');
 const { Pool } = require('pg');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('../node_modules/bcryptjs/umd');
 const jwt = require('jsonwebtoken');
 
 const app = express();
