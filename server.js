@@ -1,60 +1,41 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
-const sql = require("./db");
+const sql = require("./db"); // Importa la conexión a NeonDatabase
 
 const app = express();
-app.use(express.json()); // Soporte para JSON en peticiones
-app.use(cors()); // Permitir conexiones desde el frontend
+const PORT = 3000;
 
-// 📌 Ruta para obtener todos los usuarios
+app.use(express.json()); // Permite recibir JSON en las peticiones
+
+// 📌 Obtener todos los usuarios
 app.get("/users", async (req, res) => {
   try {
-    const users = await sql`SELECT * FROM users`; // Cambia 'users' por el nombre de tu tabla
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: "Error obteniendo datos" });
+      const users = await sql`SELECT * FROM users`;
+      console.log("Datos obtenidos:", users); // Ver qué devuelve la consulta
+      res.json(users);
+  } catch (err) {
+      console.error("Error en la consulta:", err);
+      res.status(500).json({ error: "Error al obtener los usuarios" });
   }
 });
 
-// 📌 Ruta para insertar un usuario
+
+// 📌 Agregar un usuario (POST)
 app.post("/users", async (req, res) => {
-  const { name, email } = req.body;
-  try {
-    const result = await sql`
-      INSERT INTO users (name, email) VALUES (${name}, ${email}) RETURNING *
-    `;
-    res.json(result[0]); // Devuelve el usuario insertado
-  } catch (error) {
-    res.status(500).json({ error: "Error al insertar usuario" });
-  }
+    const { nombre, email } = req.body;
+    try {
+        const newUser = await sql`
+            INSERT INTO users (nombre, email) 
+            VALUES (${nombre}, ${email}) 
+            RETURNING *`;
+        res.status(201).json(newUser[0]); // Devuelve el usuario insertado
+    } catch (err) {
+        console.error("Error al insertar usuario:", err);
+        res.status(500).json({ error: "No se pudo agregar el usuario" });
+    }
 });
 
-// 📌 Ruta para actualizar un usuario por ID
-app.put("/users/:id", async (req, res) => {
-  const { id } = req.params;
-  const { name, email } = req.body;
-  try {
-    const result = await sql`
-      UPDATE users SET name = ${name}, email = ${email} WHERE id = ${id} RETURNING *
-    `;
-    res.json(result[0]); // Devuelve el usuario actualizado
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar usuario" });
-  }
+// 📌 Servidor escuchando
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
-
-// 📌 Ruta para eliminar un usuario por ID
-app.delete("/users/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    await sql`DELETE FROM users WHERE id = ${id}`;
-    res.json({ message: "Usuario eliminado correctamente" });
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar usuario" });
-  }
-});
-
-// Iniciar el servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
