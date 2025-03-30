@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const sql = require("./db"); // Importa la conexión a NeonDatabase
+const sql = require("./model/db"); // Importa la conexión a NeonDatabase
 
 const app = express();
 const PORT = 3000;
