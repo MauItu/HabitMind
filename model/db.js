@@ -1,6 +1,12 @@
 require("dotenv").config();
-const { neon } = require("@neondatabase/serverless"); // Asegura que el paquete esté instalado
+const { Pool } = require("pg");
 
-const sql = neon(process.env.DATABASE_URL); // Revisa que DATABASE_URL esté bien configurada
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 
-module.exports = sql;
+module.exports = pool;
