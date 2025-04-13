@@ -39,6 +39,23 @@ app.post("/signIn", async (req, res) => {
   }
 });
 
+app.post("/signUp", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+      [username, email, password]
+    );
+
+    res.json({ success: true, message: "Registro exitoso", user: result.rows[0] });
+  } catch (error) {
+    console.error("Error al registrar:", error);
+    res.status(500).json({ success: false, message: "Error del servidor" });
+  }
+}
+);
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`✅ Servidor en http://localhost:${PORT}`);

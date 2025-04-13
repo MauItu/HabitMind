@@ -33,14 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
         signupForm.addEventListener("submit", async function (event) {
             event.preventDefault();
     
-            const name = document.getElementById("name").value;
+            const username = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const errorMessage = document.getElementById("error-message");
     
             try {
                 const response = await axios.post("http://localhost:3000/signUp", {
-                    name: name,
+                    username: username,
                     email: email,
                     password: password
                 });

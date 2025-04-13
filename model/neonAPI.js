@@ -1,15 +1,16 @@
 const express = require('express');
 const { Pool } = require('pg');
-const bcrypt = require('../node_modules/bcryptjs/umd');
-const jwt = require('jsonwebtoken');
+const bcrypt = require('../node_modules/bcryptjs/umd');//incriptar de forma segrua las contrase;as
+const jwt = require('jsonwebtoken');//para la autenticacion
 
-const app = express();
+const app = express();//para manejar las rutas y solicitudes
 app.use(express.json());
 
 const pool = new Pool({
   connectionString: process.env.NEON_DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
+  ssl: { rejectUnauthorized: false }//configuracion necesaria de neon
+});//conexion a la base de datos
+
 
 // Registro de usuario
 app.post('/api/register', async (req, res) => {
