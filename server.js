@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public"))); // Servir archivos estáticos (HTML, CSS, JS)
 
 // Ruta para inicio de sesión
-app.post("/login", async (req, res) => {
+app.post("/signIn", async (req, res) => {
   const { email, password } = req.body;
 
   try {
