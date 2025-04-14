@@ -30,7 +30,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
     line-height: 1.6;
-    background-image: url('../../public/fondo-picaai.png'); /* Reemplazar con tu imagen de fondo */
+    background-image: url('../../../public/fondo-picaai.png'); /* Reemplazar con tu imagen de fondo */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
