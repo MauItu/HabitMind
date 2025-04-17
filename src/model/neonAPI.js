@@ -1,3 +1,6 @@
+// codigo generado por IA de guia para la parte del backend
+// esta clase no se utiliza en el proyecto
+
 const express = require('express');
 const { Pool } = require('pg');
 const bcrypt = require('../node_modules/bcryptjs/umd');//incriptar de forma segrua las contrase;as
