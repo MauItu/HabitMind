@@ -138,6 +138,8 @@ Este proyecto está bajo la **MIT License**. Consulta `LICENSE` para más detall
 
 ## Contacto
 
-- **Autor:** Mauricio Jesús Iturriza Medina  
-- **Email:** tu_email@ejemplo.com  
+**Autores:**  
+- Mauricio Jesús Iturriza Medina — mauiturriza@gmail.com
+- Angel Andres Cortes Arboleda — angel.cortes0225@gmail.com
+- Juan Andres Gomez Gonzalez — juan.andres.gomez.gonzalez22@gmail.com
 
