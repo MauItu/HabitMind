@@ -1,62 +1,36 @@
 require("dotenv").config();
 const express = require("express");
-const { Pool } = require("pg");
 const cors = require("cors");
 const path = require("path");
+const authRoutes = require("./src/routes/authRoutes");
 
 const app = express();
 const PORT = 3000;
 
-// Configurar conexión a PostgreSQL
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }, // Necesario para Neon
-});
-
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "public"))); // Servir archivos estáticos (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, "public")));
 
-// Ruta para inicio de sesión
-app.post("/signIn", async (req, res) => {
-  const { email, password } = req.body;
+// Rutas
+app.use("/api/auth", authRoutes);
 
-  try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE email = $1 AND password = $2",
-      [email, password]
-    );
-
-    if (result.rows.length > 0) {
-      res.json({ success: true, message: "Inicio de sesión exitoso" });
-    } else {
-      res.status(401).json({ success: false, message: "Credenciales incorrectas" });
-    }
-  } catch (error) {
-    console.error("Error al iniciar sesión:", error);
-    res.status(500).json({ success: false, message: "Error del servidor" });
-  }
+// Servir vistas
+app.get("/signIn", (req, res) => {
+  res.sendFile(path.join(__dirname, "views/auth/signIn.html"));
 });
 
-app.post("/signUp", async (req, res) => {
-  const { username, email, password } = req.body;
+app.get("/signUp", (req, res) => {
+  res.sendFile(path.join(__dirname, "views/auth/signUp.html"));
+});
 
-  try {
-    const result = await pool.query(
-      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
-      [username, email, password]
-    );
-
-    res.json({ success: true, message: "Registro exitoso", user: result.rows[0] });
-  } catch (error) {
-    console.error("Error al registrar:", error);
-    res.status(500).json({ success: false, message: "Error del servidor" });
-  }
-}
-);
-
-// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`✅ Servidor en http://localhost:${PORT}`);
 });
+
+// Servir home.html desde la carpeta public
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "home.html"));
+});
+// En server.js:
+app.use(express.static(path.join(__dirname, "public")));
