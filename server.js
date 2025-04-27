@@ -105,7 +105,7 @@ app.post("/signUp", async (req, res) => {
       JWT_SECRET,
       { expiresIn: '24h' }
     );
-
+    //verificar si el token se genera correctamente
     res.json({ 
       success: true, 
       message: "Registro exitoso", 
