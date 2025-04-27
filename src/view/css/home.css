@@ -926,6 +926,7 @@ footer {
         transform: scale(1);
     }
 }
+/* Estilos para los iconos y botones */
 .habit-actions .edit-btn svg {
     width: 1.5rem;
     height: 1.5rem;
@@ -944,6 +945,7 @@ footer {
 .habit-actions button:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
+/* Estilos para el contenedor del hábito */
 .habit-card {
     cursor: pointer;
     padding: 1rem;
@@ -978,3 +980,15 @@ footer {
 .habit-info {
     flex-grow: 1;
 }
+/*para que se vean los iconos */
+.habit-actions svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--text-light);
+    stroke: currentColor;
+}
+
+
+
+
+
