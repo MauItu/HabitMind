@@ -10,48 +10,51 @@
     --background-alt: #f8f9fa;
     --border: #e0e0e0;
     --shadow: rgba(0, 0, 0, 0.1);
-    
-    --habit-blue: #2196F3;
-    --habit-green: #4CAF50;
-    --habit-purple: #9C27B0;
-    --habit-red: #F44336;
-    
+  
+    --habit-blue: #2196f3;
+    --habit-green: #4caf50;
+    --habit-purple: #9c27b0;
+    --habit-red: #f44336;
+  
     --animation-duration: 0.8s;
     --animation-timing: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-* {
+  }
+  
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    font-family: "Poppins", sans-serif;
     color: var(--text);
     line-height: 1.6;
-    background-image: url('../../../public/fondo-picaai.png'); /* Reemplazar con tu imagen de fondo */
+    background-image: url("../../../public/fondo-picaai.png"); /* Reemplazar con tu imagen de fondo */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
-}
-
-/* Tipografía */
-h1, h2, h3, h4 {
+  }
+  
+  /* Tipografía */
+  h1,
+  h2,
+  h3,
+  h4 {
     margin-bottom: 1rem;
     line-height: 1.3;
     font-weight: 600;
-}
-
-h2 {
+  }
+  
+  h2 {
     font-size: 1.5rem;
     color: var(--primary-dark);
-}
-
-/* Header y navegación */
-header {
+  }
+  
+  /* Header y navegación */
+  header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -62,32 +65,32 @@ header {
     top: 0;
     z-index: 100;
     animation: slideDown 0.5s var(--animation-timing);
-}
-
-.logo {
+  }
+  
+  .logo {
     display: flex;
     align-items: center;
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--primary);
-}
-
-.logo i {
+  }
+  
+  .logo i {
     margin-right: 0.5rem;
     font-size: 1.8rem;
     animation: spin 10s linear infinite;
-}
-
-nav ul {
+  }
+  
+  nav ul {
     display: flex;
     list-style: none;
-}
-
-nav ul li {
+  }
+  
+  nav ul li {
     margin: 0 1rem;
-}
-
-nav ul li a {
+  }
+  
+  nav ul li a {
     text-decoration: none;
     color: var(--text);
     font-weight: 500;
@@ -96,10 +99,10 @@ nav ul li a {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-nav ul li a::after {
-    content: '';
+  }
+  
+  nav ul li a::after {
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -107,48 +110,49 @@ nav ul li a::after {
     height: 2px;
     background-color: var(--primary);
     transition: width 0.3s ease;
-}
-
-nav ul li a:hover::after {
+  }
+  
+  nav ul li a:hover::after {
     width: 100%;
-}
-
-nav ul li a:hover, nav ul li a.active {
+  }
+  
+  nav ul li a:hover,
+  nav ul li a.active {
     color: var(--primary);
     background-color: var(--primary-light);
-}
-
-.user-menu {
+  }
+  
+  .user-menu {
     display: flex;
     align-items: center;
-}
-
-.user-menu span {
+  }
+  
+  .user-menu span {
     margin-right: 1rem;
     font-weight: 500;
-}
-
-.logout-btn {
+  }
+  
+  .logout-btn {
     text-decoration: none;
     color: var(--text-light);
     font-size: 0.9rem;
     transition: color 0.3s ease;
-}
-
-.logout-btn:hover {
+  }
+  
+  .logout-btn:hover {
     color: var(--accent);
-}
-
-/* Dashboard Layout */
-.dashboard {
+  }
+  
+  /* Dashboard Layout */
+  .dashboard {
     display: flex;
     padding: 2rem 5%;
     min-height: calc(100vh - 150px);
     gap: 2rem;
-}
-
-/* Panel de hábitos (izquierda) */
-.habits-panel {
+  }
+  
+  /* Panel de hábitos (izquierda) */
+  .habits-panel {
     flex: 0 0 300px;
     display: flex;
     flex-direction: column;
@@ -158,22 +162,22 @@ nav ul li a:hover, nav ul li a.active {
     overflow: hidden;
     max-height: 80vh;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.habits-panel:hover {
+  }
+  
+  .habits-panel:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.panel-header {
+  }
+  
+  .panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
     border-bottom: 1px solid var(--border);
-}
-
-.add-btn {
+  }
+  
+  .add-btn {
     width: 32px;
     height: 32px;
     border-radius: 8px;
@@ -186,25 +190,25 @@ nav ul li a:hover, nav ul li a.active {
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
-}
-
-.add-btn:hover {
+  }
+  
+  .add-btn:hover {
     background-color: var(--primary);
     color: white;
     transform: rotate(90deg);
-}
-
-.add-btn.pulse {
+  }
+  
+  .add-btn.pulse {
     animation: pulse 2s infinite;
-}
-
-.habits-list {
+  }
+  
+  .habits-list {
     flex: 1;
     padding: 1rem;
     overflow-y: auto;
-}
-
-.empty-state {
+  }
+  
+  .empty-state {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -212,18 +216,19 @@ nav ul li a:hover, nav ul li a.active {
     height: 200px;
     text-align: center;
     color: var(--text-light);
-}
-
-.empty-state p:first-child {
+  }
+  
+  .empty-state p:first-child {
     font-weight: 500;
     margin-bottom: 0.5rem;
-}
-
-.empty-state p:last-child {
+  }
+  
+  .empty-state p:last-child {
     font-size: 0.9rem;
-}
-
-.habit-item {
+  }
+  
+  /* Actualiza los estilos para los elementos de hábito */
+  .habit-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -233,23 +238,58 @@ nav ul li a:hover, nav ul li a.active {
     margin-bottom: 0.8rem;
     transition: all 0.3s ease;
     animation: fadeInUp 0.5s var(--animation-timing) both;
-}
-
-.habit-item:hover {
+    background-color: var(--background);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .habit-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: currentColor;
+    transition: all 0.3s ease;
+  }
+  
+  .habit-item.blue {
+    color: var(--habit-blue);
+    stroke: currentColor;
+  }
+  
+  .habit-item.green {
+    color: var(--habit-green);
+    stroke: currentColor;
+  }
+  
+  .habit-item.purple {
+    color: var(--habit-purple);
+    stroke: currentColor;
+  }
+  
+  .habit-item.red {
+    color: var(--habit-red);
+    stroke: currentColor;
+  }
+  
+  .habit-item:hover {
     box-shadow: 0 2px 8px var(--shadow);
     transform: translateY(-2px) scale(1.02);
-}
-
-.habit-name {
+  }
+  
+  .habit-name {
     font-weight: 500;
-}
-
-.habit-actions {
+  }
+  
+  .habit-actions {
     display: flex;
     align-items: center;
-}
-
-.habit-edit, .habit-delete {
+  }
+  
+  .habit-edit,
+  .habit-delete {
     background: none;
     border: none;
     font-size: 1rem;
@@ -257,39 +297,39 @@ nav ul li a:hover, nav ul li a.active {
     margin-left: 0.5rem;
     color: var(--text-light);
     transition: all 0.3s ease;
-}
-
-.habit-edit:hover {
+  }
+  
+  .habit-edit:hover {
     color: var(--primary);
     transform: rotate(15deg);
-}
-
-.habit-delete:hover {
+  }
+  
+  .habit-delete:hover {
     color: var(--habit-red);
     transform: rotate(-15deg);
-}
-
-.habit-streak {
+  }
+  
+  .habit-streak {
     display: flex;
     align-items: center;
     margin-left: 1rem;
     font-weight: 600;
-}
-
-.habit-streak i {
+  }
+  
+  .habit-streak i {
     color: var(--accent);
     margin-right: 0.3rem;
     animation: flicker 1.5s ease-in-out infinite alternate;
-}
-
-.pagination {
+  }
+  
+  .pagination {
     display: flex;
     justify-content: center;
     padding: 0.8rem;
     border-top: 1px solid var(--border);
-}
-
-.pagination-btn {
+  }
+  
+  .pagination-btn {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -302,55 +342,57 @@ nav ul li a:hover, nav ul li a.active {
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
-}
-
-.pagination-btn:hover:not(:disabled) {
+  }
+  
+  .pagination-btn:hover:not(:disabled) {
     background-color: var(--primary);
     color: white;
     transform: translateY(-2px);
-}
-
-.pagination-btn:disabled {
+  }
+  
+  .pagination-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-/* Panel de estadísticas (derecha) */
-.stats-panel {
+  }
+  
+  /* Panel de estadísticas (derecha) */
+  .stats-panel {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     max-width: 70%; /* Reducir el ancho máximo */
     margin: 0 auto; /* Centrar los paneles */
-}
-
-.stats-container, .quotes-container {
+  }
+  
+  .stats-container,
+  .quotes-container {
     background-color: var(--background);
     border-radius: 12px;
     box-shadow: 0 4px 12px var(--shadow);
     padding: 1.5rem;
     width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stats-container:hover, .quotes-container:hover {
+  }
+  
+  .stats-container:hover,
+  .quotes-container:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.stats-container {
+  }
+  
+  .stats-container {
     flex: 2;
     position: relative;
     height: 350px; /* Altura fija reducida */
-}
-
-.quotes-container {
+  }
+  
+  .quotes-container {
     flex: 1;
     height: 200px; /* Altura fija reducida */
-}
-
-.no-data-message {
+  }
+  
+  .no-data-message {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -358,30 +400,30 @@ nav ul li a:hover, nav ul li a.active {
     height: 100%;
     text-align: center;
     color: var(--text-light);
-}
-
-.no-data-message p:first-child {
+  }
+  
+  .no-data-message p:first-child {
     font-weight: 500;
     margin-bottom: 0.5rem;
-}
-
-.no-data-message p:last-child {
+  }
+  
+  .no-data-message p:last-child {
     font-size: 0.9rem;
-}
-
-.chart-container {
+  }
+  
+  .chart-container {
     height: 200px;
     margin-bottom: 1.5rem;
     animation: fadeIn 1s ease;
-}
-
-.stats-buttons {
+  }
+  
+  .stats-buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
-}
-
-.stats-btn {
+  }
+  
+  .stats-btn {
     padding: 0.6rem 1.5rem;
     border: none;
     border-radius: 8px;
@@ -390,23 +432,23 @@ nav ul li a:hover, nav ul li a.active {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.stats-btn:hover {
+  }
+  
+  .stats-btn:hover {
     background-color: var(--primary);
     color: white;
     transform: translateY(-2px);
-}
-
-.stats-btn.active {
+  }
+  
+  .stats-btn.active {
     background-color: var(--primary);
     color: white;
     position: relative;
     overflow: hidden;
-}
-
-.stats-btn.active::after {
-    content: '';
+  }
+  
+  .stats-btn.active::after {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -415,9 +457,9 @@ nav ul li a:hover, nav ul li a.active {
     background: rgba(255, 255, 255, 0.2);
     transform: translateX(-100%);
     animation: shimmer 2s infinite;
-}
-
-.quote-content {
+  }
+  
+  .quote-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -425,40 +467,41 @@ nav ul li a:hover, nav ul li a.active {
     height: 100%;
     text-align: center;
     padding: 1rem;
-}
-
-blockquote {
+  }
+  
+  blockquote {
     font-size: 1.2rem;
     font-style: italic;
     margin-bottom: 1rem;
     position: relative;
     padding: 0 2rem;
-}
-
-blockquote::before, blockquote::after {
+  }
+  
+  blockquote::before,
+  blockquote::after {
     content: '"';
     font-size: 2rem;
     color: var(--primary);
     position: absolute;
-}
-
-blockquote::before {
+  }
+  
+  blockquote::before {
     top: -10px;
     left: 0;
-}
-
-blockquote::after {
+  }
+  
+  blockquote::after {
     bottom: -20px;
     right: 0;
-}
-
-#quote-author {
+  }
+  
+  #quote-author {
     font-weight: 500;
     color: var(--text-light);
-}
-
-/* Modal */
-.modal-overlay {
+  }
+  
+  /* Modal */
+  .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -473,14 +516,14 @@ blockquote::after {
     visibility: hidden;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
-}
-
-.modal-overlay.active {
+  }
+  
+  .modal-overlay.active {
     opacity: 1;
     visibility: visible;
-}
-
-.modal {
+  }
+  
+  .modal {
     width: 90%;
     max-width: 450px;
     background-color: var(--background);
@@ -489,95 +532,97 @@ blockquote::after {
     transform: translateY(-50px) scale(0.95);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
-}
-
-.modal-overlay.active .modal {
+  }
+  
+  .modal-overlay.active .modal {
     transform: translateY(0) scale(1);
-}
-
-.modal-header {
+  }
+  
+  .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
     border-bottom: 1px solid var(--border);
     background-color: var(--primary-light);
-}
-
-.close-btn {
+  }
+  
+  .close-btn {
     background: none;
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
     color: var(--text-light);
     transition: all 0.3s ease;
-}
-
-.close-btn:hover {
+  }
+  
+  .close-btn:hover {
     color: var(--habit-red);
     transform: rotate(90deg);
-}
-
-.modal-body {
+  }
+  
+  .modal-body {
     padding: 1.5rem;
-}
-
-.form-group {
+  }
+  
+  .form-group {
     margin-bottom: 1.5rem;
     opacity: 0;
     transform: translateX(20px);
-}
-
-.form-group.slide-in {
+  }
+  
+  .form-group.slide-in {
     animation: slideInRight var(--animation-duration) var(--animation-timing) forwards;
     animation-delay: var(--delay, 0s);
-}
-
-.form-group label {
+  }
+  
+  .form-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-}
-
-.form-group input, .form-group textarea {
+  }
+  
+  .form-group input,
+  .form-group textarea {
     width: 100%;
     padding: 0.8rem;
     border: 1px solid var(--border);
     border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1rem;
     transition: all 0.3s ease;
-}
-
-.form-group input:focus, .form-group textarea:focus {
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.2);
     transform: translateY(-2px);
-}
-
-.form-group textarea {
+  }
+  
+  .form-group textarea {
     min-height: 100px;
     resize: vertical;
-}
-
-.color-options {
+  }
+  
+  .color-options {
     display: flex;
     gap: 1rem;
-}
-
-.color-option {
+  }
+  
+  .color-option {
     position: relative;
-}
-
-.color-option input[type="radio"] {
+  }
+  
+  .color-option input[type="radio"] {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
-}
-
-.color-circle {
+  }
+  
+  .color-circle {
     display: block;
     width: 32px;
     height: 32px;
@@ -585,73 +630,74 @@ blockquote::after {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 3px solid transparent;
-}
-
-.color-circle.blue {
+  }
+  
+  .color-circle.blue {
     background-color: var(--habit-blue);
-}
-
-.color-circle.green {
+  }
+  
+  .color-circle.green {
     background-color: var(--habit-green);
-}
-
-.color-circle.purple {
+  }
+  
+  .color-circle.purple {
     background-color: var(--habit-purple);
-}
-
-.color-circle.red {
+  }
+  
+  .color-circle.red {
     background-color: var(--habit-red);
-}
-
-.color-option input[type="radio"]:checked + .color-circle {
+  }
+  
+  .color-option input[type="radio"]:checked + .color-circle {
     border-color: var(--text);
     transform: scale(1.2);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.form-actions {
+  }
+  
+  .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 2rem;
     opacity: 0;
     transform: translateY(20px);
-}
-
-.form-actions.slide-in {
+  }
+  
+  .form-actions.slide-in {
     animation: slideInUp var(--animation-duration) var(--animation-timing) forwards;
     animation-delay: var(--delay, 0s);
-}
-
-.cancel-btn, .accept-btn {
+  }
+  
+  .cancel-btn,
+  .accept-btn {
     padding: 0.8rem 1.5rem;
     border-radius: 8px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.cancel-btn {
+  }
+  
+  .cancel-btn {
     background-color: var(--background-alt);
     border: 1px solid var(--border);
     color: var(--text);
-}
-
-.cancel-btn:hover {
+  }
+  
+  .cancel-btn:hover {
     background-color: #e9ecef;
     transform: translateY(-2px);
-}
-
-.accept-btn {
+  }
+  
+  .accept-btn {
     background-color: var(--habit-green);
     border: none;
     color: white;
     position: relative;
     overflow: hidden;
-}
-
-.accept-btn::after {
-    content: '';
+  }
+  
+  .accept-btn::after {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -659,207 +705,209 @@ blockquote::after {
     height: 100%;
     background: rgba(255, 255, 255, 0.2);
     transform: translateX(-100%);
-}
-
-.accept-btn:hover {
+  }
+  
+  .accept-btn:hover {
     background-color: #3d8b40;
     transform: translateY(-2px);
-}
-
-.accept-btn:hover::after {
+  }
+  
+  .accept-btn:hover::after {
     animation: shimmer 1s forwards;
-}
-
-/* Footer */
-footer {
+  }
+  
+  /* Footer */
+  footer {
     background-color: rgba(51, 51, 51, 0.9);
     color: white;
     padding: 2rem 5%;
     margin-top: 2rem;
-}
-
-.footer-content {
+  }
+  
+  .footer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
-
-.footer-logo {
+  }
+  
+  .footer-logo {
     display: flex;
     align-items: center;
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
-}
-
-.footer-logo i {
+  }
+  
+  .footer-logo i {
     margin-right: 0.5rem;
     font-size: 1.8rem;
     animation: spin 10s linear infinite;
-}
-
-/* Animaciones */
-@keyframes spin {
+  }
+  
+  /* Animaciones */
+  @keyframes spin {
     from {
-        transform: rotate(0deg);
+      transform: rotate(0deg);
     }
     to {
-        transform: rotate(360deg);
+      transform: rotate(360deg);
     }
-}
-
-@keyframes fadeIn {
+  }
+  
+  @keyframes fadeIn {
     from {
-        opacity: 0;
+      opacity: 0;
     }
     to {
-        opacity: 1;
+      opacity: 1;
     }
-}
-
-@keyframes fadeInUp {
+  }
+  
+  @keyframes fadeInUp {
     from {
-        opacity: 0;
-        transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-@keyframes slideInRight {
+  }
+  
+  @keyframes slideInRight {
     from {
-        opacity: 0;
-        transform: translateX(20px);
+      opacity: 0;
+      transform: translateX(20px);
     }
     to {
-        opacity: 1;
-        transform: translateX(0);
+      opacity: 1;
+      transform: translateX(0);
     }
-}
-
-@keyframes slideInUp {
+  }
+  
+  @keyframes slideInUp {
     from {
-        opacity: 0;
-        transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-@keyframes slideDown {
+  }
+  
+  @keyframes slideDown {
     from {
-        transform: translateY(-100%);
+      transform: translateY(-100%);
     }
     to {
-        transform: translateY(0);
+      transform: translateY(0);
     }
-}
-
-@keyframes pulse {
+  }
+  
+  @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(58, 123, 213, 0.7);
+      box-shadow: 0 0 0 0 rgba(58, 123, 213, 0.7);
     }
     70% {
-        box-shadow: 0 0 0 10px rgba(58, 123, 213, 0);
+      box-shadow: 0 0 0 10px rgba(58, 123, 213, 0);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(58, 123, 213, 0);
+      box-shadow: 0 0 0 0 rgba(58, 123, 213, 0);
     }
-}
-
-@keyframes flicker {
-    0%, 100% {
-        opacity: 1;
+  }
+  
+  @keyframes flicker {
+    0%,
+    100% {
+      opacity: 1;
     }
     50% {
-        opacity: 0.7;
+      opacity: 0.7;
     }
-}
-
-@keyframes shimmer {
+  }
+  
+  @keyframes shimmer {
     0% {
-        transform: translateX(-100%);
+      transform: translateX(-100%);
     }
     100% {
-        transform: translateX(100%);
+      transform: translateX(100%);
     }
-}
-
-/* Clases de animación */
-.animate-in {
+  }
+  
+  /* Clases de animación */
+  .animate-in {
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp var(--animation-duration) var(--animation-timing) forwards;
     animation-delay: var(--delay, 0s);
-}
-
-.fade-in {
+  }
+  
+  .fade-in {
     opacity: 0;
     animation: fadeIn var(--animation-duration) var(--animation-timing) forwards;
     animation-delay: var(--delay, 0s);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
+  }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
     .dashboard {
-        flex-direction: column;
+      flex-direction: column;
     }
-    
+  
     .habits-panel {
-        flex: 0 0 auto;
-        width: 100%;
-        margin-bottom: 2rem;
-        max-height: none;
+      flex: 0 0 auto;
+      width: 100%;
+      margin-bottom: 2rem;
+      max-height: none;
     }
-    
+  
     .stats-panel {
-        max-width: 100%;
+      max-width: 100%;
     }
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     header {
-        flex-direction: column;
-        padding: 1rem;
+      flex-direction: column;
+      padding: 1rem;
     }
-    
+  
     .logo {
-        margin-bottom: 1rem;
+      margin-bottom: 1rem;
     }
-    
+  
     nav ul {
-        margin-bottom: 1rem;
+      margin-bottom: 1rem;
     }
-    
+  
     .modal {
-        width: 95%;
+      width: 95%;
     }
-}
-
-@media (max-width: 576px) {
+  }
+  
+  @media (max-width: 576px) {
     nav ul li {
-        margin: 0 0.5rem;
+      margin: 0 0.5rem;
     }
-    
+  
     nav ul li a {
-        padding: 0.5rem;
+      padding: 0.5rem;
     }
-    
+  
     .form-actions {
-        flex-direction: column;
+      flex-direction: column;
     }
-    
-    .cancel-btn, .accept-btn {
-        width: 100%;
+  
+    .cancel-btn,
+    .accept-btn {
+      width: 100%;
     }
-}
-/* Estilos para el mensaje de error de autenticación */
-.auth-error {
+  }
+  /* Estilos para el mensaje de error de autenticación */
+  .auth-error {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -873,29 +921,29 @@ footer {
     padding: 2rem;
     margin: 2rem auto;
     max-width: 600px;
-}
-
-.error-icon {
+  }
+  
+  .error-icon {
     font-size: 3rem;
     color: #e74c3c;
     margin-bottom: 1rem;
     animation: pulse 1.5s infinite;
-}
-
-.auth-error h2 {
+  }
+  
+  .auth-error h2 {
     color: #333;
     margin-bottom: 1rem;
     font-size: 1.8rem;
-}
-
-.auth-error p {
+  }
+  
+  .auth-error p {
     color: #666;
     margin-bottom: 2rem;
     font-size: 1rem;
     line-height: 1.5;
-}
-
-.redirect-btn {
+  }
+  
+  .redirect-btn {
     background-color: #3498db;
     color: white;
     border: none;
@@ -904,91 +952,114 @@ footer {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-}
-
-.redirect-btn:hover {
+  }
+  
+  .redirect-btn:hover {
     background-color: #2980b9;
     transform: translateY(-2px);
-}
-
-.redirect-btn:active {
+  }
+  
+  .redirect-btn:active {
     transform: translateY(0);
-}
-
-@keyframes pulse {
+  }
+  
+  @keyframes pulse {
     0% {
-        transform: scale(1);
+      transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+      transform: scale(1.1);
     }
     100% {
-        transform: scale(1);
+      transform: scale(1);
     }
-}
-/* Estilos para los iconos y botones */
-.habit-actions .edit-btn svg {
+  }
+  /* Estilos para los iconos y botones */
+  .habit-actions .edit-btn svg {
     width: 1.5rem;
     height: 1.5rem;
     color: currentColor;
-}
-
-.habit-actions button {
+  }
+  
+  .habit-actions button {
     background: none;
     border: none;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 0.25rem;
     transition: background-color 0.2s;
-}
-
-.habit-actions button:hover {
+  }
+  
+  .habit-actions button:hover {
     background-color: rgba(0, 0, 0, 0.1);
-}
-/* Estilos para el contenedor del hábito */
-.habit-card {
+  }
+  /* Mejora los estilos para la tarjeta de hábito */
+  .habit-card {
     cursor: pointer;
-    padding: 1rem;
+    padding: 0.5rem;
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 100%;
-}
-
-.habit-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.habit-card:focus {
-    outline: 2px solid #007bff;
-    outline-offset: -2px;
-}
-
-.habit-actions {
+  }
+  
+  .habit-info {
+    flex-grow: 1;
+  }
+  
+  .habit-info h3 {
+    margin-bottom: 0.25rem;
+    color: var(--text);
+    font-size: 1rem;
+  }
+  
+  .habit-info p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin: 0;
+  }
+  
+  /* Mejora los estilos para los botones de acción */
+  .habit-actions {
     display: flex;
     gap: 0.5rem;
     z-index: 1;
-}
-
-.habit-actions button {
+  }
+  
+  .habit-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
     z-index: 2;
-}
-
-.habit-info {
-    flex-grow: 1;
-}
-/*para que se vean los iconos */
-.habit-actions svg {
+  }
+  
+  .habit-actions button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .habit-actions svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: var(--text-light);
+    stroke: currentColor;
+  }
+  
+  .habit-actions .edit-btn:hover svg {
+    color: var(--primary);
+  }
+  
+  .habit-actions .history-btn:hover svg {
+    color: var(--accent);
+  }
+  /*para que se vean los iconos */
+  .habit-actions svg {
     width: 1.5rem;
     height: 1.5rem;
     color: var(--text-light);
     stroke: currentColor;
-}
-
-
-
-
-
+  }
