@@ -1053,7 +1053,7 @@
     color: var(--primary);
   }
   
-  .habit-actions .history-btn:hover svg {
+  .habit-actions .delete-btn:hover svg {
     color: var(--accent);
   }
   /*para que se vean los iconos */

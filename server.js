@@ -13,11 +13,11 @@ const JWT_SECRET = process.env.JWT_SECRET || "tu_clave_secreta_temporal"; // Ide
 // Configurar conexión a PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }, // Necesario para Neon
+  ssl: { rejectUnauthorized: false }, // Necesario para conexion con Neon
 });
 
 // Middleware
-app.use(express.json());
+app.use(express.json()); //hacer solicitudades a la DB en formato JSON
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
