@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {//se refiere a que este codigo(la declaracion de los objetos) corre cuando carga el html
     // Referencias a elementos del DOM
     const habitsList = document.getElementById("habits-list");
-    const addHabitBtn = document.getElementById("add-habit-btn");
-    const habitModal = document.getElementById("habit-modal");
-    const habitModalOverlay = document.getElementById("habit-modal-overlay");
-    const closeModalBtn = document.getElementById("close-modal-btn");
-    const cancelBtn = document.getElementById("cancel-btn");
+    const addHabitBtn = document.getElementById("add-habit-btn");           // botón "Agregar hábito"
+    const habitModal = document.getElementById("habit-modal");              // ventana del modal
+    const habitModalOverlay = document.getElementById("habit-modal-overlay"); // fondo oscuro
+    const closeModalBtn = document.getElementById("close-modal-btn");       // botón cerrar
+    const cancelBtn = document.getElementById("cancel-btn");                // botón cancelar
     const habitForm = document.getElementById("habit-form");
     const usernameElement = document.querySelector(".user-menu span");
     const logoutBtn = document.querySelector(".logout-btn");
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {//se refiere a que est
         
         habitElement.querySelector(".delete-btn").addEventListener("click", (e) => {
             e.stopPropagation(); // Evitar que se dispare el evento del padre
-            loadHabitHistory(habit.habits_id);
+            deleteHabit(habit.habits_id);
         });
         
         return habitElement;
@@ -198,10 +198,10 @@ document.addEventListener("DOMContentLoaded", function() {//se refiere a que est
         // Aquí implementarías un modal similar al de creación de hábitos
     }
 
-    // Cargar historial de un hábito
-    async function loadHabitHistory(habitId) {
+    // eliminar habito
+    async function deleteHabit(habitId) {
         try {
-            const response = await axios.get(`http://localhost:3000/habits/${habitId}/history`);
+            const response = await axios.delete(`http://localhost:3000/habits/${habitId}`);
             // Implementar visualización del historial
             alert(`Historial cargado: ${response.data.history.length} registros`);
         } catch (error) {
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function() {//se refiere a que est
         }
     }
 
-    // Actualizar gráfico de hábitos
+    // Actualizar gráfico de hábitos y HACER UN METODO PARA LOS SEMANALES Y ESTE PARA LOS TOTALE
     function updateHabitsChart(habits) {
         // Esta es una implementación básica, puedes mejorarla según tus necesidades
         const ctx = document.getElementById('habits-chart').getContext('2d');
