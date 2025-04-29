@@ -1,4 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // =============================================
+    // VERIFICACIÓN DE AUTENTICACIÓN Y USUARIO
+    // =============================================
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const authToken = localStorage.getItem('authToken');
+    
+    if (!userData || !authToken) {
+        window.location.href = "../access/access.html";
+        return;
+    }
+
+    // Mostrar nombre del usuario en el header
+    const userMenuElement = document.querySelector('.user-menu span');
+    if (userMenuElement) {
+        userMenuElement.textContent = userData.name || userData.username || "Usuario";
+    }
+
+    // Configurar logout
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = "../access/access.html";
+        });
+    }
+
+    // Configurar axios para enviar el token
+    if (typeof axios !== 'undefined') {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+    }
+
+    // =============================================
+    // TU CÓDIGO ORIGINAL (con pequeñas mejoras)
+    // =============================================
+    
     // Referencias a elementos del DOM
     const addHabitBtn = document.getElementById('add-habit-btn');
     const habitModalOverlay = document.getElementById('habit-modal-overlay');
@@ -14,21 +51,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Funciones para el modal
     function openModal() {
         habitModalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevenir scroll
+        document.body.style.overflow = 'hidden';
         
-        // Reiniciar animaciones de los elementos del formulario
         const animatedElements = habitModalOverlay.querySelectorAll('.slide-in');
         animatedElements.forEach(el => {
             el.style.animation = 'none';
-            el.offsetHeight; // Trigger reflow
+            el.offsetHeight;
             el.style.animation = null;
         });
     }
     
     function closeModal() {
         habitModalOverlay.classList.remove('active');
-        document.body.style.overflow = ''; // Restaurar scroll
-        habitForm.reset(); // Limpiar formulario
+        document.body.style.overflow = '';
+        habitForm.reset();
     }
     
     // Event listeners para el modal
@@ -36,92 +72,220 @@ document.addEventListener('DOMContentLoaded', function() {
     closeModalBtn.addEventListener('click', closeModal);
     cancelBtn.addEventListener('click', closeModal);
     
-    // Cerrar modal al hacer clic fuera
     habitModalOverlay.addEventListener('click', function(e) {
         if (e.target === habitModalOverlay) {
             closeModal();
         }
     });
     
-    // Manejar envío del formulario
-    habitForm.addEventListener('submit', function(e) {
+    // Manejar envío del formulario (ahora con conexión al backend)
+    habitForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Aquí iría la lógica para guardar el hábito en la base de datos
-        // Como no hay base de datos, simplemente cerramos el modal
+        const habitData = {
+            name: document.getElementById('habit-name').value,
+            description: document.getElementById('habit-description').value,
+            color: document.querySelector('input[name="habit-color"]:checked').value,
+            userId: userData.id // Añadimos el ID del usuario
+        };
         
-        // Simulación de creación de hábito (solo para demostración)
-        const habitName = document.getElementById('habit-name').value;
-        const habitColor = document.querySelector('input[name="habit-color"]:checked').value;
-        
-        // Crear elemento visual del hábito (solo para demostración)
-        createHabitElement(habitName, habitColor);
-        
-        closeModal();
+        try {
+            const response = await axios.post('http://localhost:3000/habits', habitData);
+            
+            if (response.data.success) {
+                createHabitElement(response.data.habit);
+                closeModal();
+                
+                // Actualizar estadísticas si es necesario
+                if (statsContent.style.display === 'block') {
+                    updateChart();
+                }
+            }
+        } catch (error) {
+            console.error('Error al crear hábito:', error);
+            alert('Error al crear el hábito. Por favor intente nuevamente.');
+        }
     });
     
-    // Función para crear elemento visual de hábito (solo para demostración)
-    function createHabitElement(name, color) {
-        // Eliminar mensaje de estado vacío si existe
+    // Función para crear elemento visual de hábito (ahora con datos reales)
+    function createHabitElement(habit) {
         const emptyState = habitsList.querySelector('.empty-state');
         if (emptyState) {
             emptyState.remove();
         }
         
-        // Crear elemento de hábito
         const habitItem = document.createElement('div');
         habitItem.className = 'habit-item';
-        habitItem.style.opacity = '0'; // Inicialmente invisible para la animación
+        habitItem.dataset.id = habit.id;
+        habitItem.style.opacity = '0';
         habitItem.innerHTML = `
-            <span class="habit-name">${name}</span>
+            <span class="habit-name">${habit.name}</span>
             <div class="habit-actions">
                 <button class="habit-edit"><i class="fas fa-edit"></i></button>
                 <button class="habit-delete"><i class="fas fa-trash"></i></button>
                 <div class="habit-streak">
                     <i class="fas fa-fire"></i>
-                    <span>0</span>
+                    <span>${habit.streak || 0}</span>
                 </div>
             </div>
         `;
         
-        // Aplicar color según selección
-        habitItem.style.borderLeft = `4px solid var(--habit-${color})`;
-        
-        // Agregar a la lista
+        habitItem.style.borderLeft = `4px solid var(--habit-${habit.color})`;
         habitsList.appendChild(habitItem);
         
-        // Animar entrada
         setTimeout(() => {
             habitItem.style.opacity = '1';
             habitItem.style.animation = 'fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
         }, 10);
         
-        // Agregar event listeners para editar y eliminar
-        const editBtn = habitItem.querySelector('.habit-edit');
-        const deleteBtn = habitItem.querySelector('.habit-delete');
-        
-        editBtn.addEventListener('click', function() {
-            // Aquí iría la lógica para editar el hábito
-            alert('Función de edición no implementada en esta demo');
-        });
-        
-        deleteBtn.addEventListener('click', function() {
-            // Animar salida antes de eliminar
-            habitItem.style.animation = 'fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse forwards';
-            
-            setTimeout(() => {
-                // Eliminar el hábito de la lista
-                habitItem.remove();
-                
-                // Si no quedan hábitos, mostrar mensaje de estado vacío
-                if (habitsList.children.length === 0) {
-                    showEmptyState();
-                }
-            }, 500);
-        });
+        // Configurar eventos para los botones
+        habitItem.querySelector('.habit-edit').addEventListener('click', () => editHabit(habit.id));
+        habitItem.querySelector('.habit-delete').addEventListener('click', () => deleteHabit(habit.id));
     }
     
-    // Función para mostrar estado vacío
+    // Función para editar hábito
+    async function editHabit(habitId) {
+        try {
+            const response = await axios.get(`http://localhost:3000/habits/${habitId}`);
+            const habit = response.data;
+            
+            // Llenar el formulario modal con los datos del hábito
+            document.getElementById('habit-name').value = habit.name;
+            document.getElementById('habit-description').value = habit.description;
+            document.getElementById(`color-${habit.color}`).checked = true;
+            
+            // Cambiar el texto del modal para edición
+            document.querySelector('#habit-modal h2').textContent = 'Editar Hábito';
+            
+            // Mostrar modal
+            openModal();
+            
+            // Cambiar el evento de submit para edición
+            habitForm.onsubmit = async function(e) {
+                e.preventDefault();
+                
+                const updatedData = {
+                    name: document.getElementById('habit-name').value,
+                    description: document.getElementById('habit-description').value,
+                    color: document.querySelector('input[name="habit-color"]:checked').value
+                };
+                
+                const updateResponse = await axios.put(`http://localhost:3000/habits/${habitId}`, updatedData);
+                
+                if (updateResponse.data.success) {
+                    // Actualizar el hábito en la lista
+                    const habitElement = document.querySelector(`.habit-item[data-id="${habitId}"]`);
+                    if (habitElement) {
+                        habitElement.querySelector('.habit-name').textContent = updatedData.name;
+                        habitElement.style.borderLeft = `4px solid var(--habit-${updatedData.color})`;
+                    }
+                    closeModal();
+                }
+            };
+        } catch (error) {
+            console.error('Error al editar hábito:', error);
+        }
+    }
+    
+    // Función para eliminar hábito
+    async function deleteHabit(habitId) {
+        if (!confirm('¿Estás seguro de que quieres eliminar este hábito?')) return;
+        
+        try {
+            const response = await axios.delete(`http://localhost:3000/habits/${habitId}`);
+            
+            if (response.data.success) {
+                const habitItem = document.querySelector(`.habit-item[data-id="${habitId}"]`);
+                if (habitItem) {
+                    habitItem.style.animation = 'fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse forwards';
+                    
+                    setTimeout(() => {
+                        habitItem.remove();
+                        
+                        if (habitsList.children.length === 0) {
+                            showEmptyState();
+                        }
+                    }, 500);
+                }
+            }
+        } catch (error) {
+            console.error('Error al eliminar hábito:', error);
+        }
+    }
+    
+    // Función para cargar hábitos del usuario
+    async function loadUserHabits() {
+        try {
+            const response = await axios.get(`http://localhost:3000/habits?userId=${userData.id}`);
+            
+            if (response.data.length > 0) {
+                response.data.forEach(habit => createHabitElement(habit));
+                
+                // Mostrar estadísticas si hay hábitos
+                statsEmptyState.style.display = 'none';
+                statsContent.style.display = 'block';
+                updateChart(response.data);
+            } else {
+                showEmptyState();
+            }
+        } catch (error) {
+            console.error('Error al cargar hábitos:', error);
+            showEmptyState();
+        }
+    }
+    
+    // Función para actualizar el gráfico
+    function updateChart(habits = []) {
+        const ctx = document.getElementById('habits-chart');
+        if (!ctx) return;
+        
+        // Datos para el gráfico (ejemplo)
+        const chartData = {
+            labels: habits.map(h => h.name),
+            datasets: [{
+                data: habits.map(h => h.streak || 0),
+                backgroundColor: habits.map(h => {
+                    const colors = {
+                        blue: '#4285F4',
+                        green: '#34A853',
+                        purple: '#9C27B0',
+                        red: '#EA4335'
+                    };
+                    return colors[h.color] || '#4285F4';
+                }),
+                borderWidth: 0
+            }]
+        };
+        
+        // Crear o actualizar gráfico
+        if (window.habitsChart) {
+            window.habitsChart.data = chartData;
+            window.habitsChart.update();
+        } else {
+            window.habitsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    },
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 2000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        }
+    }
+    
+    // Resto de tus funciones...
     function showEmptyState() {
         const emptyState = document.createElement('div');
         emptyState.className = 'empty-state fade-in';
@@ -132,57 +296,6 @@ document.addEventListener('DOMContentLoaded', function() {
         habitsList.appendChild(emptyState);
     }
     
-    // Inicializar gráfico (vacío)
-    function initChart() {
-        const ctx = document.getElementById('habits-chart');
-        if (!ctx) return;
-        
-        // Crear gráfico vacío con Chart.js
-        const chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: [],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    }
-                },
-                cutout: '70%',
-                animation: {
-                    animateScale: true,
-                    animateRotate: true,
-                    duration: 2000,
-                    easing: 'easeOutQuart'
-                }
-            }
-        });
-        
-        return chart;
-    }
-    
-    // Cambiar entre vistas de estadísticas
-    weeklyBtn.addEventListener('click', function() {
-        weeklyBtn.classList.add('active');
-        totalBtn.classList.remove('active');
-        // Aquí iría la lógica para actualizar el gráfico con datos semanales
-    });
-    
-    totalBtn.addEventListener('click', function() {
-        totalBtn.classList.add('active');
-        weeklyBtn.classList.remove('active');
-        // Aquí iría la lógica para actualizar el gráfico con datos totales
-    });
-    
-    // Función para animar elementos al hacer scroll
     function animateOnScroll() {
         const elements = document.querySelectorAll('.animate-in');
         
@@ -197,19 +310,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Inicializar la aplicación
-    function init() {
-        // Inicializar gráfico vacío
-        const chart = initChart();
+    // Inicialización modificada
+    async function init() {
+        // Cargar hábitos del usuario
+        await loadUserHabits();
         
-        // Mostrar estados vacíos iniciales
-        showEmptyState();
-        
-        // Configurar animaciones iniciales
+        // Configurar animaciones
         animateOnScroll();
         window.addEventListener('scroll', animateOnScroll);
         
-        // Animar el botón de añadir hábito después de un tiempo
+        // Animar el botón de añadir
         setTimeout(() => {
             addHabitBtn.classList.add('pulse');
         }, 2000);
