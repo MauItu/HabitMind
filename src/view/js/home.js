@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function() {//se refiere a que est
             </div>
         `;
         
-        // Agregar evento de clic al elemento completo
+        // card de eiminar habito
         const habitCard = habitElement.querySelector('.habit-card');
         habitCard.addEventListener("click", (e) => {
             // Evitar que el clic se propague si fue en los botones de acción
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {//se refiere a que est
         habitElement.querySelector(".edit-btn").addEventListener("click", (e) => {
             e.stopPropagation(); // Evitar que se dispare el evento del padre
             // Implementar edición
-            console.log("Eliminar hábito:", habit);
+            console.log("editar hábito:", habit);
         });
         
         habitElement.querySelector(".delete-btn").addEventListener("click", (e) => {
@@ -202,10 +202,14 @@ document.addEventListener("DOMContentLoaded", function() {//se refiere a que est
     async function deleteHabit(habitId) {
         try {
             const response = await axios.delete(`http://localhost:3000/habits/${habitId}`);
-            // Implementar visualización del historial
-            alert(`Historial cargado: ${response.data.history.length} registros`);
+            // Implementar visualización del modal
+            if(response)
+                {
+                    console.log("habito eliminado")
+                    loadHabits();
+                }   
         } catch (error) {
-            console.error("Error al cargar historial:", error);
+            console.error("Error al eliminar habito:", error);
         }
     }
 

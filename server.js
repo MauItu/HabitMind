@@ -162,6 +162,11 @@ app.post("/habits", authenticateToken, async (req, res) => {
   }
 });
 
+
+
+
+
+
 // Registrar seguimiento de un hábito
 app.post("/habits/:habitId/track", authenticateToken, async (req, res) => {
   const { habitId } = req.params;
@@ -191,22 +196,47 @@ app.post("/habits/:habitId/track", authenticateToken, async (req, res) => {
   }
 });
 
-// Obtener el historial de seguimiento de un hábito
-app.get("/habits/:habitId/history", authenticateToken, async (req, res) => {
+
+
+
+
+
+
+// Eliminar habito
+app.delete("/habits/:habitId", authenticateToken, async (req, res) => {
   const { habitId } = req.params;
-  
-  try {
-    const result = await pool.query(
-      "SELECT * FROM habit_tracking WHERE habits_id = $1 AND users_id = $2 ORDER BY date DESC",
+
+  try{
+    // Verificar que el hábito pertenezca al usuario
+    const habitCheck = await pool.query(
+      "SELECT * FROM habits WHERE habits_id = $1 AND users_id = $2",
       [habitId, req.user.id]
     );
-    
-    res.json({ success: true, history: result.rows });
+
+    if (habitCheck.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Hábito no encontrado" });
+    }
+
+    // Eliminar el hábito
+    await pool.query(
+      "DELETE FROM habits WHERE habits_id = $1 AND users_id = $2",
+      [habitId, req.user.id]
+    );
+
+    res.json({ success: true, message: "Hábito eliminado" });
+
   } catch (error) {
-    console.error("Error al obtener historial:", error);
+    console.error("Error al eliminar hábito:", error);
     res.status(500).json({ success: false, message: "Error del servidor" });
   }
 });
+
+
+
+
+
+
+
 
 // Ruta para verificar autenticación (útil para cliente)
 app.get("/auth/verify", authenticateToken, (req, res) => {
