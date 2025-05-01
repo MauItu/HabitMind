@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
             e.stopPropagation(); // Evitar que se dispare el evento del padre
             // Implementar edición
             console.log("editar hábito:", habit);
-            TODO //ACA VA EL CODIGO O LLAMADO DE LA FUNCION PARA EDITAR EL HABITO, DE MOMENTO SOLO MUESTRA LOS ATRIBUTOS
+            //TODO: ACA VA EL CODIGO O LLAMADO DE LA FUNCION PARA EDITAR EL HABITO, DE MOMENTO SOLO MUESTRA LOS ATRIBUTOS
         });
         
         habitElement.querySelector(".delete-btn").addEventListener("click", (e) => {
@@ -239,9 +239,9 @@ document.addEventListener("DOMContentLoaded", function() {
      * @param {Object} habit - Objeto con los atributos del hábito
      */
     function showTrackingModal(habit) {
-        TODO // Implementar el modal para registrar tiempo
+        //TODO:Implementar el modal para registrar tiempo
         alert(`Registrar tiempo para: ${habit.name}`);
-        TODO // Aquí implementarías un modal similar al de creación de hábitos
+        //TODO: Aquí implementarías un modal similar al de creación de hábitos
     }
 
     /**
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     function showDeleteConfirmationModal(habit) {
         // Crear contenido del modal para elimina
-        TODO // MEJORAR ESTILOS
+        //TODO:MEJORAR ESTILOS
         deleteModal.innerHTML = `
             <div class="modal-header">
                 <h3>Confirmar eliminación</h3>
