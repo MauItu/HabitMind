@@ -254,3 +254,30 @@ app.get("/auth/verify", authenticateToken, (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Servidor en http://localhost:${PORT}`);
 });
+
+
+
+app.get("/quotes",authenticateToken, async (req, res) => {
+  try {
+    // seleccionar frase aleatoria
+    const result = await pool.query(
+      "SELECT * FROM frases ORDER BY RANDOM() LIMIT 1"
+    );
+    if (result.rows.length === 0) {
+      return res.json({ 
+        success: false, 
+        message: "No hay frases disponibles" 
+      });
+    }
+    res.json({ 
+      success: true, 
+      quote: result.rows[0]
+    });
+  } catch (error) {
+    console.error("Error al cargar la frase:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error de conexión" 
+    });
+  }
+});

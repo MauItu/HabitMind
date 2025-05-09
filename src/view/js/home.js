@@ -250,7 +250,6 @@ document.addEventListener("DOMContentLoaded", function() {
      */
     function showDeleteConfirmationModal(habit) {
         // Crear contenido del modal para elimina
-        //TODO:MEJORAR ESTILOS
         deleteModal.innerHTML = `
             <div class="modal-header">
                 <h3>Confirmar eliminación</h3>
@@ -395,26 +394,37 @@ document.addEventListener("DOMContentLoaded", function() {
     /**
      * Carga una frase motivacional aleatoria en la UI
      */
-    function loadRandomQuote() {
-        // Colección de citas motivacionales
-        const quotes = [
-            { text: "Los pequeños hábitos generan resultados extraordinarios.", author: "James Clear" },
-            { text: "No necesitas ser perfecto. Solo necesitas ser mejor que ayer.", author: "Anónimo" },
-            { text: "La disciplina es elegir entre lo que quieres ahora y lo que quieres más.", author: "Abraham Lincoln" },
-            { text: "El éxito no es un accidente. Es el resultado de tus hábitos diarios.", author: "James Clear" },
-            { text: "Somos lo que hacemos repetidamente. La excelencia, entonces, no es un acto sino un hábito.", author: "Aristóteles" }
-        ];
-        
-        // Seleccionar una cita aleatoria
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        
-        // Actualizar la UI con la cita seleccionada
-        if (quoteContent && quotesEmptyState) {
-            quoteContent.style.display = "block";
-            quotesEmptyState.style.display = "none";
+    async function loadRandomQuote() {
+        try {
+            const response = await axios.get("http://localhost:3000/quotes");
             
-            if (quoteText) quoteText.textContent = randomQuote.text;
-            if (quoteAuthor) quoteAuthor.textContent = `- ${randomQuote.author}`;
+            if (!response.data.success) {
+                throw new Error(response.data.message);
+            }
+    
+            const quote = response.data.quote;
+    
+            // Actualizar la UI con la cita
+            if (quoteContent && quotesEmptyState) {
+                quoteContent.style.display = "block";
+                quotesEmptyState.style.display = "none";
+                
+                if (quoteText) quoteText.textContent = `${quote.contenido}`;
+                if (quoteAuthor) quoteAuthor.textContent = `- ${quote.autor}`;
+            }
+    
+        } catch (error) {
+            console.error("Error al cargar citas:", error);
+            
+            // Mostrar estado vacío si hay error
+            if (quoteContent) quoteContent.style.display = "none";
+            if (quotesEmptyState) quotesEmptyState.style.display = "block";
+            
+            // Actualizar mensaje de error si existe el elemento
+            const errorMessage = quotesEmptyState?.querySelector('p');
+            if (errorMessage) {
+                errorMessage.textContent = "No se pudieron cargar las frases motivacionales.";
+            }
         }
     }
 
